@@ -13,9 +13,9 @@ const TIME_SCALE : u128 = 5000u128;
 const CPU_LOAD_SAMPLE : i64 = 200;
 const DEFAULT_TASK : time::Duration = time::Duration::from_millis(10);
 
-pub union Task {
-    spin_for_duration : time::Duration,
-    sleep_for_duration : time::Duration,
+pub enum Task {
+    spin_for_duration(time::Duration),
+    sleep_for_duration(time::Duration),
 }
 
 pub struct Broker {
@@ -93,9 +93,9 @@ impl Broker {
         let randval : f32 = random();
         
         if randval < rand_threshold {
-            Task{spin_for_duration : DEFAULT_TASK}
+            Task::spin_for_duration(DEFAULT_TASK)
         } else {
-            Task{sleep_for_duration : DEFAULT_TASK}
+            Task::sleep_for_duration(DEFAULT_TASK)
         }
     }
 
