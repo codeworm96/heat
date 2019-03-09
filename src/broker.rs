@@ -3,7 +3,6 @@ use rand::prelude::*;
 ///！ This module is the job broker. It dispatches job according to current system load
 /// and expected load.
 ///
-use spin;
 use std::time;
 use systemstat::{data, Platform, System};
 
@@ -18,7 +17,6 @@ pub enum Task {
 }
 
 pub struct Broker {
-    lock: spin::Mutex<i32>,
     pid: pid::PidController,
     target: Vec<f32>,
     last_target: f32,
@@ -40,7 +38,6 @@ impl Broker {
     pub fn new(target: Vec<f32>) -> Self {
         let last_target = target[0];
         Broker {
-            lock: spin::Mutex::new(0),
             pid: pid::PidController::new(0.0, 1.0, 0.0),
             target: target,
             last_target: last_target,
@@ -51,8 +48,6 @@ impl Broker {
     }
 
     pub fn next(&mut self) -> Task {
-        let guard = self.lock.lock();
-
         let time = self.instant.elapsed().as_millis();
 
         // Current CPU Utilization
