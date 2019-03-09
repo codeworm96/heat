@@ -1,6 +1,6 @@
 use std::thread;
-mod pid;
 mod broker;
+mod pid;
 
 fn main() {
     let cpu_num = num_cpus::get();
@@ -13,7 +13,7 @@ fn main() {
     // println!("Controller says {}.", controller.next_output(1.0));
 
     for _ in 0..cpu_num {
-        threads.push(thread::spawn(|| { println!("Hello, world!") }));
+        threads.push(thread::spawn(|| println!("Hello, world!")));
     }
 
     for t in threads {
