@@ -7,9 +7,9 @@ use std::time;
 use systemstat::{data, Platform, System};
 
 // How many ticks count as one "bar"
-const TIME_SCALE: u128 = 5000u128;
-const CPU_LOAD_SAMPLE: i64 = 200;
-const DEFAULT_TASK: time::Duration = time::Duration::from_millis(10);
+const TIME_SCALE: u128 = 10000u128;
+const CPU_LOAD_SAMPLE: i64 = 300;
+const DEFAULT_TASK: time::Duration = time::Duration::from_millis(1);
 
 pub enum Task {
     Spin(time::Duration),
@@ -38,7 +38,7 @@ impl Broker {
     pub fn new(target: Vec<f32>) -> Self {
         let last_target = target[0];
         Broker {
-            pid: pid::PidController::new(0.0, 1.0, 0.0),
+            pid: pid::PidController::new(-0.0001, -0.0001, 0.0),
             target: target,
             last_target: last_target,
             instant: time::Instant::now(),
@@ -48,7 +48,10 @@ impl Broker {
     }
 
     pub fn next(&mut self) -> Task {
+
         let time = self.instant.elapsed().as_millis();
+
+        print!("Time = {}. ", time);
 
         // Current CPU Utilization
         let (last_sample, last_timestamp) = self.last_cpu_load;
@@ -57,10 +60,13 @@ impl Broker {
             let overall_load = 1.0 - load_stat.idle;
             self.load_object = get_load_object();
             self.last_cpu_load = (overall_load, time as i64);
+            print!("New system load = {}. ", overall_load);
             overall_load
         } else {
+            print!("Last system load = {}. ", last_sample);
             last_sample
         };
+
 
         // We use the last target value to compute the error to
         // avoid a suden jump when the target changed
@@ -71,12 +77,14 @@ impl Broker {
 
         let bar_idx = ((time / TIME_SCALE) as usize) % self.target.len();
         let target = self.target[bar_idx];
-        let last_target = target;
+        self.last_target = target;
+
+        print!("Target util = {}. Pid Val = {}. ", target, pidval);
 
         // Clamp the random threshold.
         let rand_threshold = match target + pidval {
             c if c > 0.9 => 0.9,
-            c if c < 0.2 => 0.2,
+            c if c < 0.05 => 0.05,
             c => c,
         };
 
@@ -84,8 +92,10 @@ impl Broker {
         let randval: f32 = random();
 
         if randval < rand_threshold {
+            println!(" SPIN.");
             Task::Spin(DEFAULT_TASK)
         } else {
+            println!(" SLEEP.");
             Task::Sleep(DEFAULT_TASK)
         }
     }
