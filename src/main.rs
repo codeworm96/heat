@@ -10,19 +10,16 @@ use broker::{Broker, Task};
 fn main() {
     let cpu_num = num_cpus::get();
     let mut threads = Vec::with_capacity(cpu_num);
-    // let mut controller = pid::PidController::new();
 
-    // println!("Controller says {}.", controller.next_output(1.0));
-    // println!("Controller says {}.", controller.next_output(1.0));
-    // println!("Controller says {}.", controller.next_output(1.0));
-    // println!("Controller says {}.", controller.next_output(1.0));
+    println!("Running. Number of CPUs = {}.", cpu_num);
 
-    let broker = Arc::new(spin::Mutex::new(Broker::new(vec![0.3, 0.7])));
+    let broker = Arc::new(std::sync::Mutex::new(Broker::new(vec![0.3, 0.7, 0.2, 0.4])));
 
     for _ in 0..cpu_num {
         let broker = broker.clone();
         threads.push(thread::spawn(move || loop {
-            match broker.lock().next() {
+            let task = broker.lock().unwrap().next();
+            match task {
                 Task::Spin(t) => {
                     let now = SystemTime::now();
                     loop {
