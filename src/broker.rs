@@ -48,7 +48,6 @@ impl Broker {
     }
 
     pub fn next(&mut self) -> Task {
-
         let time = self.instant.elapsed().as_millis();
 
         print!("Time = {}. ", time);
@@ -66,7 +65,6 @@ impl Broker {
             print!("Last system load = {}. ", last_sample);
             last_sample
         };
-
 
         // We use the last target value to compute the error to
         // avoid a suden jump when the target changed
