@@ -7,6 +7,7 @@
 \usepackage{graphicx}
 \usepackage{textcomp}
 \usepackage{xcolor}
+\usepackage{url}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
     
@@ -71,6 +72,49 @@ to every second.
 \section{Computing Device Based ECG Platforms}
 
 \subsection{Graphics Device Based ECG Platforms}
+
+Graphics card users has a long history of trying to use their graphics devices as an ECG platform. 
+In \cite{jegxegg}, the author tried to use an Geforce GTX 480 graphics card to cook an egg. The ECG software used
+to control the ECG process are games and benchmarking software of unknown name. The resulting edible content is shown in Fig.~\ref{gtx480egg}.
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[scale=.4]{fig/gtx480egg.jpg}}
+\caption{Egg fried on an GTX480 graphic card.}
+\label{gtx480egg}
+\end{figure}
+
+The authors reports that the resulting edible content is, in fact, too close to its primitive form to be edible (an effect more commonly known as being ``too raw"). The researchers blame the ECG controlling software for the failure of the experiment and suggests \textit{FurMark} would give a better result. This research further demonstrates the urgent need to design a precise and easy to use ECG platform.
+
+The authors also believe MVidia is in fact secretly encouraging users to use their product as an ECG platform to attract more customers. We acquired two pieces of advertising material (Fig.~\ref{nvfermi} and Fig.~\ref{nvpascal}) from an unnamed source familiar with the company media promotion strategy. Around a decade a ago, GPGPU computation started off as an hack into graphics rendering pipeline and now its' one of the primary use of GPUs in the inductry. We believe history will repeat itself in the case of graphics device based ECG. Our work, although focusing on CPUs, generalizes well to GPUs \textcolor{red}{(TODO: give this wild claim some justification!)}.
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=\linewidth]{fig/nvfermi.jpg}}
+\caption{Early promotion material used for MVidia GTX480.}
+\label{nvfermi}
+\end{figure}
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=\linewidth]{fig/nvpascal.jpg}}
+\caption{Promotion material for MVidia RTX2080 for Chinese market.}
+\label{nvpascal}
+\end{figure}
+
+\subsection{CPU Based ECG Platforms}
+Users has also tried use CPU as ECG platforms. C.~C.~Channel \cite{ccchan} demonstrated 
+in a YourTube Video series the possibility of using Ontel processors to generate various
+kinds of edible contents. In their experiments, bacon, spaghetti, and even pop corns are processed through an Ontel processor. The software used to control the ECG platform is not known. 
+
+Some of the experiments do provide valid results. The authors are able to obtain a few edible content with great quality. However, in ``Cooking with Ontel 5 - The Nearly Indestructible Celeroff D", the authors lost one of their experimentation platform due to overheating.
+
+This highlights the need for a precise ECG platform. If the user sets the power too high for too long, the user might end up losing the hardware. On the other hand, if the ECG platform provides insufficient power, the edible content may be too close to its primitive form to be safely consumed by the user.
+
+The fact that modern processors are multi-core and super-scalar presents more challenge to building a precise ECG platform. The ECG platform will have to orchestrate work across different cores so that the overall power stays constant.
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[scale=.25]{fig/intel}}
+\caption{ECG with Ontel Celeroff D processors.}
+\label{intelcook}
+\end{figure}
 
 \section{System Architecture}
 The goal of this work is to implement a precise ECG platform on a modern processor. 
@@ -164,7 +208,20 @@ GHC machines the moment the told the administration staff that want to perform E
 authors have no idea why the administration staff holds such hostility to legit scientific research and edible contents. The 
 best we have is running our program while monitoring CPU utilization. 
 
-As you can see, our results proves the effectiveness of our approach.
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=\linewidth]{fig/result.png}}
+\caption{Experimenting a sine like ECG control function.}
+\end{figure}
+
+We specify an sine-like control function to test our implementation. The testing platform comes with an Ontel Xeon E5-1660 CPU, which contains 8 cores, each with 2-way SMT. As you can see, our results proves the effectiveness of our approach. Our ECG program is able to provide precise control on the CPU. 
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=\linewidth]{fig/result2.png}}
+\caption{Swift change in power output is also supported.}
+\label{swift}
+\end{figure}
+
+Fig.~\ref{swift} tests the system's response time under quickly changing load specification. The result shows that the ECG program is able to precisely and quickly response to change in required power. The authors believe preparing edible content using our platform will be a pleasant and worry free process.
 
 \section{Conclusion}
 
